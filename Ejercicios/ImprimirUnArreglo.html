@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--
+    4. Imprimir un arreglo
+    Escribir una función llamada imprimirArreglo que reciba un
+    arreglo e imprima cada elemento en una línea a parte:
+    -->
+    <script>
+
+        // const hola = "20";
+
+        // function holaaa() {
+        //     console.log(hola);
+        // }
+        function imprimirArreglo(...args) {  // ...args crea un array real.
+            // console.log(args)
+            return args
+        }
+
+        function imprimirArreglo2() {  // arguments es un objeto que se parece a un array,
+            return arguments;    //  pero no tiene las mismas capacidades que un array verdadero.
+        }
+
+
+        console.log(imprimirArreglo(1, "Hola", 2, "Mundo"))
+
+
+        console.log(imprimirArreglo2(1, "Hola", 2, "Mundo"))
+    </script>
+</body>
+
+</html>
