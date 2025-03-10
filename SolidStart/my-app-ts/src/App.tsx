@@ -20,14 +20,19 @@ type MyForm = {
     email: ''
   });
 
-  createEffect(() => {
+function guardar(event: SubmitEvent ) {
+    event.preventDefault();
     console.log(form());
-  })
+}
+
+  // createEffect(() => {
+  //   console.log(form());
+  // })
 
   return (
     <div class={styles.App}>
         <h4>Bienvenido</h4>
-        <form action="">
+        <form action="" onSubmit={guardar}>
           <h5>Nombre</h5>
           <input type="text" value={form()?.nombre} onInput={(e) => setForm((valor) => ({...valor, nombre: e.target.value}))}/>
           <h5>Edad</h5>
@@ -39,28 +44,13 @@ type MyForm = {
               return {...newValue, telefono: e.target.value.toUpperCase()}
             })} />
           <h5>Direccion</h5>
-          <input type="text" value={form()?.direccion} />
+          <input type="text" value={form()?.direccion} onInput={(e)=>setForm((valor)=>({...valor, direccion: e.target.value}))}/>
           <h5>Email</h5>
-          <input type="email" value={form()?.email} />
+          <input type="email" value={form()?.email} onInput={(e)=>setForm((valor)=>({...valor, email: e.target.value}))}/>
+          <br /><br />
+          <button type="submit">Guardar Informacion</button>
         </form>
     </div>
-
-    // <div class={styles.App}>
-    //   <header class={styles.header}>
-    //     <img src={logo} class={styles.logo} alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.tsx</code> and save to reload.
-    //     </p>
-    //     <a
-    //       class={styles.link}
-    //       href="https://github.com/solidjs/solid"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn Solid
-    //     </a>
-    //   </header>
-    // </div>
   );
 };
 
