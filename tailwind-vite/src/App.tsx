@@ -12,6 +12,7 @@ import {
 	MyComponentName2,
 } from "./components/componentProp.tsx";
 import { EjemploEffect } from "./Temas/createEffect.tsx";
+import { EjemploRenderingList, FruitList, } from "./Temas/redering-list.tsx";
 
 
 function hola() {
@@ -57,6 +58,12 @@ function App() {
 			</h1>
 			<h1 class="border p-2 m-2">
 				<EjemploEffect />
+			</h1>
+			<h1 class="border p-2 m-2">
+				<EjemploRenderingList />
+			</h1>
+			<h1 class="border p-2 m-2">
+				<FruitList />
 			</h1>
 		</div>
 	);
