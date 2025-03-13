@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import { MyComponent } from "./components/componente1";
+import { ContadorAutomatico, MyComponent } from "./components/componente1";
 import {
 	Componente2,
 	Componente3,
@@ -11,6 +11,7 @@ import {
 	MyComponentName,
 	MyComponentName2,
 } from "./components/componentProp.tsx";
+import { EjemploEffect } from "./Temas/createEffect.tsx";
 
 
 function hola() {
@@ -27,6 +28,9 @@ function App() {
 
 	return (
 		<div>
+			<h1 class="border p-2 m-2">
+				Componente Contador Autmatico<ContadorAutomatico />
+			</h1>
 			<h1 class="border p-2 m-2">
 				Componente 1<MyComponent />
 			</h1>
@@ -50,6 +54,9 @@ function App() {
 			</h1>
 			<h1 class="border p-2 m-2">
 				<NombreInput funget={nombre()} funset={nameSetter}/>
+			</h1>
+			<h1 class="border p-2 m-2">
+				<EjemploEffect />
 			</h1>
 		</div>
 	);
