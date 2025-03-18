@@ -1,5 +1,4 @@
 import { createSignal, Match, Switch } from "solid-js";
-import { BotonMenos } from "./botonMenos";
 
 export function AgregarAlCarrito() {
 	const [count, setCount] = createSignal(0);

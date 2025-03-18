@@ -2,9 +2,6 @@ import { createResource, Switch, Match, Show, onMount, For } from "solid-js";
 import { createSignal } from "solid-js";
 import { AgregarAlCarrito } from "./boton-agregar";
 //
-interface Props{
-	contador: number;
-}
 
 const fetchProducto = async () => {
 	const res = await fetch("http://localhost:4000/products");
@@ -25,7 +22,7 @@ export function MostrarProductos() {
 							<div class="w-1/3 p-2 ">
 								<img class="" src={product.image.desktop} alt="img" />
 								<div class="flex border justify-center">
-									<AgregarAlCarrito />
+									<AgregarAlCarrito/>
 								</div>
 								<ul>
 									<li>Categoria: {product.category}</li>
