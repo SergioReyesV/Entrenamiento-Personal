@@ -1,4 +1,3 @@
-
 import { createEffect, createSignal, For, Show } from "solid-js";
 import type { Producto } from "../App";
 

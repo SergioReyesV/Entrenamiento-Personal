@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, Show } from "solid-js";
+import { createSignal, For, Match, Show, Switch } from "solid-js";
 import type { Producto } from "../App";
 
 interface PropsCarrito {
@@ -6,6 +6,13 @@ interface PropsCarrito {
 	products: Producto[];
 }
 export function ListaProductos(props: PropsCarrito) {
+	const [contador, setContador] = createSignal(0);
+
+	const manejarClick = (product: Producto) => {
+		props.updateCarrito(product);
+		setContador(contador() + 1); // Incrementar el contador
+	};
+
 	return (
 		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
 			<Show
@@ -32,21 +39,26 @@ export function ListaProductos(props: PropsCarrito) {
 										{product.price}$
 									</p>
 								</div>
-								<Show when={props.updateCarrito.length === 0}>
-									<button
-										type="button"
-										class="mt-4 w-full py-2 px-4 bg-rose-400 text-black rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-									>
-										Agregar al carrito
-									</button>
-								</Show>
-								<button
-									type="button"
-									class="mt-4 w-full py-2 px-4 bg-rose-400 text-black rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-									onClick={() => props.updateCarrito(product)}
-								>
-									Agregar al carrito
-								</button>
+								<Switch>
+									<Match when={contador() === 0}>
+										<button
+											type="button"
+											class="mt-4 w-full py-2 px-4 bg-rose-400 text-black rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+											onClick={() => manejarClick(product)}
+										>
+											Agregar al carrito
+										</button>
+									</Match>
+									<Match when={contador() > 0}>
+										<button
+											type="button"
+											class="mt-4 w-full py-2 px-4 bg-blue-400 text-black rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+											onClick={() => manejarClick(product)}
+										>
+											Agregar al carrito {contador()}
+										</button>
+									</Match>
+								</Switch>
 							</div>
 						</div>
 					)}
