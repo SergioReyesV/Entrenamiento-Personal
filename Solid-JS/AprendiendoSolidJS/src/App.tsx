@@ -19,9 +19,6 @@ function App() {
 					BOTON DE INCREMENTO = {count()}
 				</button>
 			</div>
-			{/* <div class="ml-15 mt-15">
-				<ListaUsuarios />
-			</div> */}
 			<div>
 				{/* Componente BuscadorUsuario para ingresar el ID */}
 				<h2 class="ml-20 mt-10 text-2xl font-bold">Filtrar Usuario</h2>

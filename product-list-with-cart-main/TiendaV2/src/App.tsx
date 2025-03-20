@@ -5,15 +5,15 @@ import { ListaProductos } from "./components/lista-productos";
 
 export interface Producto {
 	id: number;
+	name: string;
+	category: string;
+	price: number;
 	image: {
 		thumbnail: string;
 		mobile: string;
 		tablet: string;
 		desktop: string;
 	};
-	name: string;
-	category: string;
-	price: number;
 }
 
 const fetchProducto = async (): Promise<Producto[]> => {
@@ -29,29 +29,46 @@ export function App() {
 		setcarrito((prev) => [...prev, product]);
 	}
 
+	function removeProduct(productId: number) {
+		setcarrito((prev) => prev.filter((product) => product.id !== productId));
+	}
+
 	return (
 		<>
-			<div class="">
-				Principal
-				<div class="mr-20 ml-20 mt-6 flex text-center flex-col bg-rose-50 border">
-					Box secundaria
-					<div class=" flex flex-wrap justify-between">
-						<div class="w-full md:w-2/3 p-2 text-start">
-							<div class=" text-start text-3xl">Productos</div>
-							<Show when={productsFetch.loading}>Loading...</Show>
+			<div class="min-h-screen bg-gray-50 flex flex-col">
+				<header class="bg-white text-rose-500 p-4 shadow-md">
+					<h1 class="text-3xl font-semibold text-center">Tienda De Postres</h1>
+				</header>
+
+				<main class="flex flex-1 p-6 space-x-6">
+					{/* Sección de Productos */}
+					<div class="flex-1 bg-rose-50 rounded-lg shadow-md p-6 border">
+						<h2 class="text-2xl font-semibold text-gray-800 mb-4">Productos</h2>
+						<Show
+							when={productsFetch}
+							fallback={<p class="text-center text-gray-600">Cargando...</p>}
+						>
 							<Show when={productsFetch}>
 								<ListaProductos
 									products={productsFetch() || []}
 									updateCarrito={updateC}
 								/>
 							</Show>
-						</div>
-						<div class="w-full md:w-1/3 p-2 border">
-							<div class="border mt-10">Carrito</div>
-							<CarritoCompras carrito={carrito()}/>
-						</div>
+						</Show>
 					</div>
-				</div>
+
+					{/* Sección de Carrito */}
+					<div class="w-full md:w-1/3 bg-rose-50 rounded-lg shadow-md p-6 border">
+						<h2 class="text-2xl font-semibold text-gray-800 mb-4">
+							Carrito de Compras
+						</h2>
+						<CarritoCompras carrito={carrito()} removeProduct={removeProduct} />
+					</div>
+				</main>
+
+				<footer class="bg-white text-rose-500 text-center p-4">
+					<p>&copy; 2025 Tienda Online. Todos los derechos reservados.</p>
+				</footer>
 			</div>
 		</>
 	);
