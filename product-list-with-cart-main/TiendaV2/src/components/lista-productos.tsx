@@ -2,15 +2,36 @@ import { createSignal, For, Match, Show, Switch } from "solid-js";
 import type { Producto } from "../App";
 
 interface PropsCarrito {
-	updateCarrito: (product: Producto) => void;
+	updateCarrito: (product: Producto, cantidad: number) => void;
 	products: Producto[];
 }
 export function ListaProductos(props: PropsCarrito) {
-	const [contador, setContador] = createSignal(0);
+	const [contadorProducto, setContadorProducto] = createSignal<
+		Map<number, number>
+	>(new Map());
 
-	const manejarClick = (product: Producto) => {
-		props.updateCarrito(product);
-		setContador(contador() + 1); // Incrementar el contador
+	const aumentarCantidad = (product: Producto) => {
+		props.updateCarrito(product, 1);
+
+		setContadorProducto((prevContador) => {
+			const newContador = new Map(prevContador);
+			const currentCount = newContador.get(product.id) || 0;
+			newContador.set(product.id, currentCount + 1); // Incrementamos el contador
+			return newContador;
+		});
+	};
+
+	// Función para disminuir la cantidad de un producto
+	const disminuirCantidad = (product: Producto) => {
+		setContadorProducto((prevContador) => {
+			const newContador = new Map(prevContador);
+			const currentCount = newContador.get(product.id) || 0;
+			if (currentCount > 0) {
+				newContador.set(product.id, currentCount - 1); // Decrementamos el contador
+				props.updateCarrito(product, -1); // Llamamos a updateCarrito al decrementar
+			}
+			return newContador;
+		});
 	};
 
 	return (
@@ -40,23 +61,38 @@ export function ListaProductos(props: PropsCarrito) {
 									</p>
 								</div>
 								<Switch>
-									<Match when={contador() === 0}>
+									<Match when={(contadorProducto().get(product.id) || 0) === 0}>
 										<button
 											type="button"
 											class="mt-4 w-full py-2 px-4 bg-rose-400 text-black rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-											onClick={() => manejarClick(product)}
+											onClick={() => aumentarCantidad(product)}
 										>
 											Agregar al carrito
 										</button>
 									</Match>
-									<Match when={contador() > 0}>
-										<button
-											type="button"
-											class="mt-4 w-full py-2 px-4 bg-blue-400 text-black rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-											onClick={() => manejarClick(product)}
-										>
-											Agregar al carrito {contador()}
-										</button>
+									<Match when={(contadorProducto().get(product.id) || 0) > 0}>
+										<div class="flex items-center justify-center">
+											<button
+												type="button"
+												class="p-2 bg-rose-400 text-white rounded-l-lg hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+												onClick={() => disminuirCantidad(product)} // Disminuir cantidad
+											>
+												-
+											</button>
+											<button
+												type="button"
+												class="p-2 bg-rose-300 text-white focus:outline-none"
+											>
+												Agregar {contadorProducto().get(product.id)}
+											</button>
+											<button
+												type="button"
+												class="p-2 bg-rose-400 text-white rounded-r-lg hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+												onClick={() => aumentarCantidad(product)}
+											>
+												+
+											</button>
+										</div>
 									</Match>
 								</Switch>
 							</div>
