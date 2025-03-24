@@ -16,39 +16,45 @@ export interface Producto {
 		desktop: string;
 	};
 }
-
 const fetchProducto = async (): Promise<Producto[]> => {
 	const res = await fetch("http://localhost:4000/products");
 	return res.json();
 };
-
 export function App() {
 	const [productsFetch] = createResource(fetchProducto);
 	const [carrito, setCarrito] = createSignal<Producto[]>([]);
 
-	// App.tsx
-function updateCarrito(product: Producto, cantidad: number) {
-	setCarrito((prevCarrito) => {
-	  const carritoActualizado = [...prevCarrito];
-	  const index = carritoActualizado.findIndex((p) => p.id === product.id);
-  
-	  if (index !== -1) {
-		const existingProduct = carritoActualizado[index];
-		// Actualizamos la cantidad correctamente
-		carritoActualizado[index] = {
-		  ...existingProduct,
-		  cantidad: Math.max(0, (existingProduct.cantidad || 0) + cantidad), // Asegura que la cantidad no sea negativa
-		};
-	  } else {
-		carritoActualizado.push({ ...product, cantidad: 1 });
-	  }
-  
-	  return carritoActualizado;
-	});
-  }
-  
+	function updateCarrito(product: Producto, cantidad: number) {
+		setCarrito((prevCarrito) => {
+			const carritoActualizado = [...prevCarrito];
+			const index = carritoActualizado.findIndex((p) => p.id === product.id);
 
-	// Función para eliminar producto del carrito
+			if (index !== -1) {
+				const existingProduct = carritoActualizado[index];
+				carritoActualizado[index] = {
+					...existingProduct,
+					cantidad: existingProduct.cantidad + cantidad,
+				};
+			} else {
+				carritoActualizado.push({ ...product, cantidad: 1 });
+			}
+			console.log(carritoActualizado);
+			const carritoFinal = carritoActualizado.filter(
+				(product) => product.cantidad > 0,
+			);
+			return carritoFinal;
+		});
+	}
+	function amountInCarrito(productId: number) {
+		const carritoActual = carrito();
+		const producto = carritoActual.find((item) => item.id === productId);
+
+		if (producto) {
+			return producto.cantidad;
+		}
+		return 0;
+	}
+
 	function removeProduct(productId: number) {
 		setCarrito((prev) => prev.filter((product) => product.id !== productId));
 	}
@@ -56,14 +62,9 @@ function updateCarrito(product: Producto, cantidad: number) {
 	return (
 		<>
 			<div class="min-h-screen bg-gray-50 flex flex-col">
-				<header class="bg-white text-rose-500 p-4 shadow-md">
-					<h1 class="text-3xl font-semibold text-center">Tienda De Postres</h1>
-				</header>
-
 				<main class="flex flex-1 p-6 space-x-6">
-					{/* Sección de Productos */}
 					<div class="flex-1 bg-rose-50 rounded-lg shadow-md p-6 border">
-						<h2 class="text-2xl font-semibold text-gray-800 mb-4">Productos</h2>
+						<h2 class="text-5xl font-default text-gray-800 mb-4">Desserts</h2>
 						<Show
 							when={productsFetch}
 							fallback={<p class="text-center text-gray-600">Cargando...</p>}
@@ -71,12 +72,11 @@ function updateCarrito(product: Producto, cantidad: number) {
 							<ListaProductos
 								products={productsFetch() || []}
 								updateCarrito={updateCarrito}
-								carrito={carrito()} // Aquí estamos pasando el carrito también
+								carrito={carrito()}
+								amountInCarrito={amountInCarrito}
 							/>
 						</Show>
 					</div>
-
-					{/* Sección de Carrito */}
 					<div class="w-full md:w-1/3 bg-rose-50 rounded-lg shadow-md p-6 border">
 						<h2 class="text-2xl font-semibold text-gray-800 mb-4">
 							Carrito de Compras
@@ -84,7 +84,6 @@ function updateCarrito(product: Producto, cantidad: number) {
 						<CarritoCompras carrito={carrito()} removeProduct={removeProduct} />
 					</div>
 				</main>
-
 				<footer class="bg-white text-rose-500 text-center p-4">
 					<p>&copy; 2025 Tienda Online. Todos los derechos reservados.</p>
 				</footer>

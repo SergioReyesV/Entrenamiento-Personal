@@ -1,0 +1,172 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+@layer base {
+	@font-face {
+		font-family: "Red Hat Text";
+		src: url("/src/assets/fonts/RedHatText-Regular.ttf") format("ttf");
+		font-style: normal;
+		font-weight: 400; /* Regular */
+	}
+
+	@font-face {
+		font-family: "Red Hat Text";
+		src: url("/src/assets/fonts/RedHatText-Semibold.ttf") format("ttf");
+		font-style: normal;
+		font-weight: 600; /* Semibold */
+	}
+
+	@font-face {
+		font-family: "Red Hat Text";
+		src: url("/src/assets/fonts/RedHatText-Bold.ttf") format("ttf");
+		font-style: normal;
+		font-weight: 700; /* Bold */
+	}
+}
+
+@layer base {
+	/* Definir los colores */
+	:root {
+		--red: hsl(14, 86%, 42%);
+		--green: hsl(159, 69%, 38%);
+		--rose-50: hsl(20, 50%, 98%);
+		--rose-100: hsl(13, 31%, 94%);
+		--rose-300: hsl(14, 25%, 72%);
+		--rose-400: hsl(7, 20%, 60%);
+		--rose-500: hsl(12, 20%, 44%);
+		--rose-900: hsl(14, 65%, 9%);
+	}
+
+	/* Definir las fuentes */
+	@font-face {
+		font-family: "Red Hat Text";
+		src: url("/src/assets/fonts/RedHatText-Regular.ttf") format("truetype");
+		font-style: normal;
+		font-weight: 400; /* Regular */
+	}
+
+	@font-face {
+		font-family: "Red Hat Text";
+		src: url("/src/assets/fonts/RedHatText-Semibold.ttf") format("truetype");
+		font-style: normal;
+		font-weight: 600; /* Semibold */
+	}
+
+	@font-face {
+		font-family: "Red Hat Text";
+		src: url("/src/assets/fonts/RedHatText-Bold.ttf") format("truetype");
+		font-style: normal;
+		font-weight: 700; /* Bold */
+	}
+}
+
+@layer base {
+	/* Aplicar la fuente por defecto */
+	body {
+		font-family: "Red Hat Text", sans-serif;
+		background-color: var(--rose-50); /* Fondo claro por defecto */
+		color: var(--rose-900); /* Texto oscuro por defecto */
+		margin: 0;
+		padding: 0;
+	}
+
+	/* Estilo de los títulos */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		color: var(--rose-900);
+	}
+
+	/* Estilo para el nombre de producto */
+	.product-name {
+		font-size: 16px; /* Tamaño del texto para los nombres de los productos */
+		font-weight: 400; /* Peso normal */
+	}
+
+	/* Botón con el estilo de la paleta de colores */
+	.button {
+		background-color: var(--red);
+		color: white;
+		padding: 10px 20px;
+		border: none;
+		cursor: pointer;
+		font-weight: 600;
+		border-radius: 5px;
+	}
+
+	/* Estilo al pasar el mouse sobre el botón */
+	.button:hover {
+		background-color: var(--green);
+	}
+
+	/* Estilo para texto en el color primario (por ejemplo, para enlaces) */
+	a {
+		color: var(--red);
+		text-decoration: none;
+	}
+
+	/* Estilo cuando el enlace es hover */
+	a:hover {
+		color: var(--green);
+	}
+}
+
+@layer base {
+	/* Diseño móvil */
+	@media (max-width: 375px) {
+		body {
+			font-size: 14px; /* Reducir tamaño de fuente en pantallas pequeñas */
+		}
+
+		.product-name {
+			font-size: 14px; /* Ajustar el tamaño de la fuente para productos */
+		}
+	}
+
+	/* Diseño de escritorio */
+	@media (min-width: 1440px) {
+		body {
+			font-size: 18px; /* Aumentar tamaño de fuente en pantallas grandes */
+		}
+
+		.product-name {
+			font-size: 18px; /* Ajustar el tamaño del texto en pantallas grandes */
+		}
+	}
+
+	/* Diseño flexible entre tamaños (Adaptar entre pantallas pequeñas y grandes) */
+	@media (min-width: 375px) and (max-width: 1440px) {
+		body {
+			font-size: 16px; /* Tamaño de fuente intermedio */
+		}
+	}
+}
+
+/* Estilo para el contenedor del carrito vacío */
+.empty-cart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; /* Ajusta el tamaño del contenedor según sea necesario */
+  border-radius: 8px;
+}
+
+.empty-cart-content {
+  text-align: center;
+}
+
+.empty-cart-image {
+  background-image: url('/assets/images/illustration-empty-cart.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 150px; /* Ajusta según el tamaño que desees para la imagen */
+  width: 100%;
+}
+
+.empty-cart-content p {
+  margin-top: 16px; /* Esto coloca el texto debajo de la imagen */
+}
